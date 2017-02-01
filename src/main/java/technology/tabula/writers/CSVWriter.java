@@ -11,10 +11,10 @@ import technology.tabula.RectangularTextContainer;
 import technology.tabula.Table;
 
 public class CSVWriter implements Writer {
-    
+
     CSVPrinter printer;
     private boolean useLineReturns = true;
-    
+
 //    public CSVWriter() {
 //        super();
 //    }
@@ -23,7 +23,7 @@ public class CSVWriter implements Writer {
 //        super();
 //        this.useLineReturns = useLineReturns;
 //    }
-    
+
     void createWriter(Appendable out) {
         try {
             this.printer = new CSVPrinter(out, CSVFormat.EXCEL);
@@ -32,13 +32,13 @@ public class CSVWriter implements Writer {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void write(Appendable out, Table table) throws IOException {
         this.createWriter(out);
-        for (List<RectangularTextContainer> row: table.getRows()) {
+        for (List<RectangularTextContainer> row : table.getRows()) {
             List<String> cells = new ArrayList<String>(row.size());
-            for (RectangularTextContainer tc: row) {
+            for (RectangularTextContainer tc : row) {
                 cells.add(tc.getText());
             }
             this.printer.printRecord(cells);
@@ -46,12 +46,24 @@ public class CSVWriter implements Writer {
         printer.flush();
     }
 
-	@Override
-	public void write(Appendable out, List<Table> tables) throws IOException {
-		for (Table table : tables) {
-			write(out, table);
-		}
-		
-	}
+    @Override
+    public void write(Appendable out, List<Table> tables) throws IOException {
+        for (Table table : tables) {
+            write(out, table);
+        }
 
+    }
+
+
+    // Write a single seer table body
+    @Override
+    public void write(Appendable out, ArrayList<String> table) throws IOException {
+        this.printer = new CSVPrinter(out, CSVFormat.EXCEL);
+        this.printer.printRecord(table);
+
+        printer.flush();
+    }
 }
+
+
+

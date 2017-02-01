@@ -2,6 +2,7 @@ package technology.tabula.writers;
 
 import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.List;
 
 import technology.tabula.Cell;
@@ -17,7 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class JSONWriter implements Writer {
- 
+
     class TableSerializerExclusionStrategy implements ExclusionStrategy {
 
         @Override
@@ -31,27 +32,32 @@ public class JSONWriter implements Writer {
         }
     }
 
-    
+
     final Gson gson;
-    
+
     public JSONWriter() {
         gson = new GsonBuilder()
-           .addSerializationExclusionStrategy(new TableSerializerExclusionStrategy())
-           .registerTypeAdapter(Table.class, new TableSerializer())
-           .registerTypeAdapter(RectangularTextContainer.class, new TextChunkSerializer())
-           .registerTypeAdapter(Cell.class, new TextChunkSerializer())
-           .registerTypeAdapter(TextChunk.class, new TextChunkSerializer())
-           .create();
+                .addSerializationExclusionStrategy(new TableSerializerExclusionStrategy())
+                .registerTypeAdapter(Table.class, new TableSerializer())
+                .registerTypeAdapter(RectangularTextContainer.class, new TextChunkSerializer())
+                .registerTypeAdapter(Cell.class, new TextChunkSerializer())
+                .registerTypeAdapter(TextChunk.class, new TextChunkSerializer())
+                .create();
     }
-    
+
     @Override
     public void write(Appendable out, Table table) throws IOException {
-    	
-    	out.append(gson.toJson(table, Table.class));
+
+        out.append(gson.toJson(table, Table.class));
     }
-    
+
     public void write(Appendable out, List<Table> tables) throws IOException {
-    	
-    	out.append(gson.toJson(tables.toArray(), Table[].class));
+
+        out.append(gson.toJson(tables.toArray(), Table[].class));
+    }
+
+    public void write(Appendable out, ArrayList<String> tables) throws IOException {
+
+        out.append(gson.toJson(tables.toArray(), Table[].class));
     }
 }

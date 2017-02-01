@@ -6,7 +6,7 @@ import java.util.List;
 // TODO this class seems superfluous - get rid of it
 
 @SuppressWarnings("serial")
-public class Line extends Rectangle {
+public class  Line extends Rectangle {
 
     List<TextChunk> textChunks = new ArrayList<TextChunk>();
     public static final Character[] WHITE_SPACE_CHARS = { ' ', '\t', '\r', '\n', '\f' };

@@ -18,7 +18,7 @@ public class Page extends Rectangle {
     private Integer rotation;
     private int pageNumber;
     private List<TextElement> texts;
-    private List<Ruling> rulings, cleanRulings = null, verticalRulingLines = null, horizontalRulingLines = null;
+    private List<Ruling> rulings,   cleanRulings = null, verticalRulingLines = null, horizontalRulingLines = null;
     private float minCharWidth;
     private float minCharHeight;
     private RectangleSpatialIndex<TextElement> spatial_index;
