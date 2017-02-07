@@ -20,6 +20,24 @@ public class TestCell {
 	}
 
 	@Test
+	public void testGetFont(){
+
+		Cell cell = new Cell(0, 0, 0, 0);
+		assertTrue(cell.getTextElements().isEmpty());
+
+		TextElement tElement = new TextElement(0, 0, 0, 0, PDType1Font.HELVETICA_BOLD, 10, "test", 5);
+		TextChunk tChunk = new TextChunk(tElement);
+		List<TextChunk> tList = new ArrayList<TextChunk>();
+		tList.add(tChunk);
+		cell.setTextElements(tList);
+		if (cell.getFont() != null ){
+            PDFont font = cell.getFont();
+            String baseFont= font.getBaseFont();
+
+        assertEquals("Helvetica-Bold", baseFont);}
+	}
+
+	@Test
 	public void testIsPlaceholder() {
 		Cell cell = new Cell(0, 0, 0, 0);
 		assertFalse(cell.isPlaceholder());
@@ -42,5 +60,6 @@ public class TestCell {
 		
 		
 		}
+
 
 }

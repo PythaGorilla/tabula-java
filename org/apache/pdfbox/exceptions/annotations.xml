@@ -1,0 +1,5 @@
+<root>
+    <item name='org.apache.pdfbox.exceptions.CryptographyException'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>

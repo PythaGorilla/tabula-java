@@ -1,9 +1,23 @@
 package technology.tabula;
 
-import java.util.List;
+import org.apache.pdfbox.pdmodel.font.PDFont;
 
+import java.util.List;
+import java.util.Optional;
 @SuppressWarnings("serial")
 public abstract class RectangularTextContainer<T extends HasText> extends Rectangle {
+
+     //Java so fucking silly two new new
+    private Table.CellPosition cell_position = new Table().new CellPosition(0,0);
+
+    public void setCell_position(int r, int c){
+        this.cell_position.row = r;
+        this.cell_position.col =c;
+        }
+    public Table.CellPosition getCell_position(){
+        return this.cell_position;
+    }
+
 
     public RectangularTextContainer(float top, float left, float width, float height) {
         super(top, left, width, height);
@@ -32,4 +46,9 @@ public abstract class RectangularTextContainer<T extends HasText> extends Rectan
     public abstract String getText();
     public abstract String getText(boolean useLineReturns);
     public abstract List<T> getTextElements();
+
+    // todo two different getfont method implemented, implement cell one
+    public abstract PDFont getFont();
+    public abstract float getFontSize();
+
 }

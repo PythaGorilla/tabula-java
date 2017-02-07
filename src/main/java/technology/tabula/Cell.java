@@ -1,16 +1,23 @@
 package technology.tabula;
 
+import org.apache.pdfbox.pdmodel.font.PDFont;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+
 
 @SuppressWarnings("serial")
 public class Cell extends RectangularTextContainer<TextChunk> {
     private boolean spanning;
     private boolean placeholder;
     private List<TextChunk> textElements;
-    
+    private PDFont font;
+    private float fontSize;
+
+
     public Cell(float top, float left, float width, float height) {
         super(top, left, width, height);
         this.setPlaceholder(false);
@@ -43,6 +50,7 @@ public class Cell extends RectangularTextContainer<TextChunk> {
         return sb.toString().trim();
     }
 
+
     public String getText() {
         return getText(true);
     }
@@ -63,7 +71,6 @@ public class Cell extends RectangularTextContainer<TextChunk> {
         this.placeholder = placeholder;
     }
 
-
     public List<TextChunk> getTextElements() {
         return textElements;
     }
@@ -71,5 +78,22 @@ public class Cell extends RectangularTextContainer<TextChunk> {
     public void setTextElements(List<TextChunk> textElements) {
         this.textElements = textElements;
     }
+
+    public PDFont getFont(){
+        return this.textElements.get(0).getFont();
+    }
+    public float getFontSize(){
+        return  this.textElements.get(0).getFontSize();
+    }
+
+    //todo implement setfont in Cell
+    public void setFont(){
+        this.font= this.textElements.get(0).getFont();
+    }
+
+    public void setFontSize(){
+        this.fontSize= this.textElements.get(0).getFontSize();
+    }
+
 
 }

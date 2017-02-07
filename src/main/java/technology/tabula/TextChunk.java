@@ -1,17 +1,35 @@
 package technology.tabula;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Collections;
-import java.util.HashMap;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+
+import java.util.*;
+
 import java.text.Normalizer;
+import java.util.stream.Collectors;
+import java.util.function.*;
+
 
 @SuppressWarnings("serial")
 public class TextChunk extends RectangularTextContainer<TextElement> implements HasText { 
     public static final TextChunk EMPTY = new TextChunk(0,0,0,0);
     List<TextElement> textElements = new ArrayList<TextElement>();
-    
+
+
+    //get font and font size from inner text elements
+    public PDFont getFont() {
+        List<PDFont> fontList = textElements.stream().map(e -> e.getFont()).collect(Collectors.toList());
+        return fontList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream().max(Comparator.comparing(Map.Entry::getValue))
+                .map(Map.Entry::getKey).orElse(null);
+    }
+
+    public float getFontSize() {
+        List<java.lang.Float> fontSizeList = textElements.stream().map(e -> e.getFontSize()).collect(Collectors.toList());
+        return fontSizeList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream().max(Comparator.comparing(Map.Entry::getValue))
+                .map(Map.Entry::getKey).orElse(null);
+    }
+
     public TextChunk(float top, float left, float width, float height) {
         super(top, left, width, height);
     }

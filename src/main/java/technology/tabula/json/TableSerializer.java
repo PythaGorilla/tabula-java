@@ -24,11 +24,17 @@ public class TableSerializer implements JsonSerializer<Table> {
         }else{
             object.addProperty("extraction_method", (table.getExtractionAlgorithm()).toString());
         }
+
+        //todo modifiy table json output property, add caption ,page number,name, oder Id
         object.addProperty("top", table.getTop());
         object.addProperty("left", table.getLeft());
         object.addProperty("width", table.getWidth());
         object.addProperty("height", table.getHeight());
-        
+        object.addProperty("page", table.getPageNo());
+        //object.addProperty("caption", table.getCaption());
+
+
+        //todo cell json serialization
         JsonArray jsonDataArray = new JsonArray();
         for (List<RectangularTextContainer> row: table.getRows()) {
             JsonArray jsonRowArray = new JsonArray();

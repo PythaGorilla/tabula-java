@@ -169,6 +169,7 @@ public class TestBasicExtractor {
                 28.28f, 103.04f, 732.6f);
         BasicExtractionAlgorithm bea = new BasicExtractionAlgorithm();
         Table table = bea.extract(page).get(0);
+        System.out.println(table.toJson());
         List<RectangularTextContainer> firstRow = table.getRows().get(0);
 
         assertTrue(firstRow.get(1).getText().equals("ALLEGIANT AIR"));

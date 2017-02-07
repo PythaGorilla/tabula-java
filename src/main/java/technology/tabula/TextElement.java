@@ -110,8 +110,9 @@ public class TextElement extends Rectangle implements HasText {
      * ported from from PDFBox's PDFTextStripper.writePage, with modifications.
      * Here be dragons
      */
+    //TOdo analyze this part
     public static List<TextChunk> mergeWords(List<TextElement> textElements, List<Ruling> verticalRulings) {
-        
+
         List<TextChunk> textChunks = new ArrayList<TextChunk>();
         
         if (textElements.isEmpty()) {

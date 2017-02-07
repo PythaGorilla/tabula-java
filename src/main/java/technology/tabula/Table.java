@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.TreeMap;
 
 import technology.tabula.extractors.ExtractionAlgorithm;
+import com.google.gson.Gson;
+
 
 @SuppressWarnings("serial")
 public class Table extends Rectangle {
     
-    class CellPosition implements Comparable<CellPosition> {
-        int row, col;
+    public  class CellPosition implements Comparable<CellPosition> {
+        public int row, col;
         CellPosition(int row, int col) {
             this.row = row; this.col = col;
         }
@@ -23,7 +25,9 @@ public class Table extends Rectangle {
                 return false;
             return other != null && this.row == ((CellPosition) other).row && this.col == ((CellPosition) other).col;
         }
-        
+        public String toString(){
+            return this.row + "," + this.col;
+        }
         @Override
         public int hashCode() {
             return this.row * 100000 + this.col;
@@ -61,14 +65,16 @@ public class Table extends Rectangle {
         }
         
         @Override
-        public RectangularTextContainer put(CellPosition cp, RectangularTextContainer value) {
+        public RectangularTextContainer put(CellPosition cp, RectangularTextContainer cellValue) {
             this.maxRow = Math.max(maxRow, cp.row);
             this.maxCol = Math.max(maxCol, cp.col);
             if (this.containsKey(cp)) { // adding on an existing CellPosition, concatenate content and resize
-                value.merge(this.get(cp));
+                cellValue.merge(this.get(cp));
             }
-            super.put(cp, value);
-            return value;
+            cellValue.setCell_position(cp.row,cp.col);
+
+            super.put(cp, cellValue);
+            return cellValue;
         }
         
         @Override
@@ -120,7 +126,7 @@ public class Table extends Rectangle {
         }
         return this.rows;
     }
-    
+
     public RectangularTextContainer getCell(int i, int j) {
         return this.cellContainer.get(i, j);
     }
@@ -138,9 +144,18 @@ public class Table extends Rectangle {
     }
     
     public List<RectangularTextContainer> getCells() {
-        return (List<RectangularTextContainer>) new ArrayList<RectangularTextContainer>(this.cellContainer.values());
+        return new ArrayList<RectangularTextContainer>(this.cellContainer.values());
     }
-    
+
+    public int getPageNo(){
+        return this.page.getPageNumber();
+    }
+
+    public String toJson(){
+        Gson gson = new Gson();
+         String s = gson.toJson(this,this.getClass());
+        return s;
+    }
     
 
 }
