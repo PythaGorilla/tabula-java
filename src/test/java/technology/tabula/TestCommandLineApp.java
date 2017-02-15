@@ -84,10 +84,9 @@ public class TestCommandLineApp {
 		String expectedJson = UtilsForTesting.loadJson("src/test/resources/technology/tabula/json/spanning_cells_basic.json");
 
 		assertEquals(expectedJson, this.csvFromCommandLineArgs(new String[] {
-				"src/test/resources/technology/tabula/spanning_cells.pdf",
-				"-p", "1", "-a",
-				"150.56,58.9,654.7,536.12", "-f",
-				"JSON"
+				"src/test/resources/technology/tabula/case-1-3.pdf",
+				"-p", "1","-f",
+				"JSON","-g"
 		}));
 	}
 

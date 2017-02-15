@@ -34,6 +34,7 @@ public class JSONWriter implements Writer {
 
 
     final Gson gson;
+    public boolean cellSpanning;
 
     public JSONWriter() {
         gson = new GsonBuilder()

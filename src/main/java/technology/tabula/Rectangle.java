@@ -8,6 +8,7 @@ import java.util.List;
 public class Rectangle extends Rectangle2D.Float implements Comparable<Rectangle> {
 
     protected static final float VERTICAL_COMPARISON_THRESHOLD = 0.4f;
+    public boolean cellSpanning =true;
 
     public Rectangle() {
         super();

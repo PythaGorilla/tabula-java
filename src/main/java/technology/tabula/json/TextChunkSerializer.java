@@ -1,15 +1,14 @@
 package technology.tabula.json;
 
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Optional;
 
+import com.google.gson.*;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import technology.tabula.RectangularTextContainer;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import technology.tabula.TextElement;
 
 public class TextChunkSerializer implements JsonSerializer<RectangularTextContainer> {
     //todo cell serializer
@@ -23,20 +22,31 @@ public class TextChunkSerializer implements JsonSerializer<RectangularTextContai
         object.addProperty("width", textChunk.getWidth());
         object.addProperty("height", textChunk.getHeight());
         object.addProperty("text", textChunk.getText());
-        object.addProperty("position", textChunk.getCell_position().toString());
+        object.addProperty("row", textChunk.getCell_position().row);
+        object.addProperty("col", textChunk.getCell_position().col);
+        List<TextElement> textElements=textChunk.getTextElements();
+        //todo cell json serialization
+//        JsonArray jsonDataArray = new JsonArray();
+//        for (TextElement textElement: textElements) {
+//
+//            jsonDataArray.add(textElement.toString());
+//        }
+//        object.add("data", jsonDataArray);
+
 
         if (textChunk.getFont() !=null){
             PDFont cell_font =  textChunk.getFont();
 
+            if (cell_font.getBaseFont() !=null) {
+                String base_font = cell_font.getBaseFont();
+                object.addProperty("baseFont", String.valueOf(base_font));
+                object.addProperty("fontSize", textChunk.getFontSize());
 
-            if (cell_font.getFontDescriptor() !=null) {
-                String base_font = cell_font.getFontDescriptor().getFontName();
-                object.addProperty("baseFont", String.valueOf(base_font));
-                float font_weight = textChunk.getFont().getFontDescriptor().getFontWeight();
+                if (cell_font.getFontDescriptor() !=null) {
+                    float font_weight = cell_font.getFontDescriptor().getFontWeight();
                 //todo modify cell output
-                object.addProperty("baseFont", String.valueOf(base_font));
                 object.addProperty("fontWeight", String.valueOf(font_weight));
-            }
+            }}
     }
         return object;
     }

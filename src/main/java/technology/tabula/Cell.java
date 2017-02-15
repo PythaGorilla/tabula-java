@@ -80,7 +80,9 @@ public class Cell extends RectangularTextContainer<TextChunk> {
     }
 
     public PDFont getFont(){
-        return this.textElements.get(0).getFont();
+        if (textElements.size() !=0) return this.textElements.get(0).getFont();
+        else return null;
+
     }
     public float getFontSize(){
         return  this.textElements.get(0).getFontSize();

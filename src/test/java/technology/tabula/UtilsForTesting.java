@@ -10,6 +10,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import com.rits.cloning.Cloner;
+
 
 public class UtilsForTesting {
     
@@ -27,8 +29,13 @@ public class UtilsForTesting {
             PDDocument document = PDDocument
                     .load(path);
             oe = new ObjectExtractor(document);
-            Page page = oe.extract(pageNumber);
-            return page;
+            Page  page = oe.extract(pageNumber);
+            Cloner cloner=new Cloner();
+
+            Page clone=cloner.deepClone(page);
+            // clone is a deep-clone of o
+
+            return clone;
         } finally {
             if (oe != null)
                 oe.close();

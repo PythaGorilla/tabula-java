@@ -21,7 +21,7 @@ public class TestWriters {
         //Page page = UtilsForTesting.getAreaFromFirstPage("src/test/resources/technology/tabula/argentina_diputados_voting_record.pdf", 269.875f, 12.75f, 790.5f, 561f);
         Page page = UtilsForTesting.getPage("src/test/resources/technology/tabula/case-1-3.pdf",1);
 
-        BasicExtractionAlgorithm bea = new BasicExtractionAlgorithm();
+        SpreadsheetExtractionAlgorithm bea = new SpreadsheetExtractionAlgorithm();
         Table table = bea.extract(page).get(0);
         return table;
     }
