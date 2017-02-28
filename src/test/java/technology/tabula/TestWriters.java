@@ -27,14 +27,16 @@ public class TestWriters {
     }
     private List<Table> getTables() throws IOException {
         
-    	Page page = UtilsForTesting.getPage("src/test/resources/technology/tabula/twotables.pdf", 1);
+    	//Page page = UtilsForTesting.getPage("src/test/resources/technology/tabula/twotables.pdf", 1);
+        Page page = UtilsForTesting.getPage("src/test/resources/technology/tabula/case-1-3.pdf",1);
+
         SpreadsheetExtractionAlgorithm sea = new SpreadsheetExtractionAlgorithm();
         return (List<Table>) sea.extract(page);    	
     }
 
     @Test
     public void testCSVWriter() throws IOException {
-        Table table = this.getTable();
+        List<Table> table = this.getTables();
         StringBuilder sb = new StringBuilder();
         (new CSVWriter()).write(sb, table);
         String s = sb.toString();

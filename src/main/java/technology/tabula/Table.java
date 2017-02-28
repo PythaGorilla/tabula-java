@@ -116,8 +116,8 @@ public class Table extends Rectangle {
 
     public RectangularTextContainer lastNonEmptyCell(int i, int j) {
         int counter = j;
-        while (!this.cellContainer.containsKey(i, counter)) counter--;
-        RectangularTextContainer newCell = this.cellContainer.get(i, counter);
+        while (!this.cellContainer.containsKey(i, counter)&& counter>0) counter--;
+        RectangularTextContainer newCell = this.cellContainer.containsKey(i, counter) ? this.cellContainer.get(i, counter) : TextChunk.EMPTY;
         Cloner cloner=new Cloner();
 
         RectangularTextContainer clonedCell= cloner.deepClone(newCell);

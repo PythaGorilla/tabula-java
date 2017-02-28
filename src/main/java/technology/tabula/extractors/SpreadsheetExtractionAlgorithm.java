@@ -26,8 +26,8 @@ import technology.tabula.writers.CSVWriter;
  *
  */
 public class SpreadsheetExtractionAlgorithm implements ExtractionAlgorithm {
-    
-    private static final float MAGIC_HEURISTIC_NUMBER = 0.65f;
+    //was 0.65
+    private static final float MAGIC_HEURISTIC_NUMBER = 0.5f;
     
     private static final Comparator<Point2D> POINT_COMPARATOR = new Comparator<Point2D>() {
         @Override

@@ -297,11 +297,13 @@
         <artifactId>bcprov-jdk15on</artifactId>
         <version>1.55</version>
     </dependency>
+
     <dependency>
-        <groupId>org.bouncycastle</groupId>
-        <artifactId>bcprov-jdk15on</artifactId>
-        <version>1.55</version>
+        <groupId>uk.com.robust-it</groupId>
+        <artifactId>cloning</artifactId>
+        <version>1.9.3</version>
     </dependency>
+
     <dependency>
         <groupId>org.bouncycastle</groupId>
         <artifactId>bcmail-jdk15on</artifactId>

@@ -228,7 +228,8 @@ public class CommandLineApp {
             return ExtractionMethod.SPREADSHEET;
         }
 
-        if (line.hasOption('n') || line.hasOption('c') || line.hasOption('g')) {
+        //deleted line.hasOption('n') from this contidion
+        if (line.hasOption('c') || line.hasOption('n') ) {
             return ExtractionMethod.BASIC;
         }
         return ExtractionMethod.DECIDE;

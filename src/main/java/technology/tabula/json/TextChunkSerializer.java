@@ -46,8 +46,13 @@ public class TextChunkSerializer implements JsonSerializer<RectangularTextContai
                     float font_weight = cell_font.getFontDescriptor().getFontWeight();
                 //todo modify cell output
                 object.addProperty("fontWeight", String.valueOf(font_weight));
-            }}
-    }
+            }}}
+        else{
+            object.addProperty("baseFont", "");
+            object.addProperty("fontSize", "0");
+            object.addProperty("fontWeight", "0");
+        }
+
         return object;
     }
 
