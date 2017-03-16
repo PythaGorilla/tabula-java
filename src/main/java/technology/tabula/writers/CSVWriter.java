@@ -35,6 +35,7 @@ public class CSVWriter implements Writer {
 
     @Override
     public void write(Appendable out, Table table) throws IOException {
+
         this.createWriter(out);
         for (List<RectangularTextContainer> row : table.getRows()) {
             List<String> cells = new ArrayList<String>(row.size());
@@ -48,6 +49,7 @@ public class CSVWriter implements Writer {
 
     @Override
     public void write(Appendable out, List<Table> tables) throws IOException {
+        //todo csv writer multiple tables are overlapping
         for (Table table : tables) {
             write(out, table);
         }

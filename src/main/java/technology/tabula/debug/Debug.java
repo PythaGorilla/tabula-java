@@ -15,18 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import technology.tabula.Cell;
-import technology.tabula.CommandLineApp;
-import technology.tabula.Line;
-import technology.tabula.ObjectExtractor;
-import technology.tabula.Page;
-import technology.tabula.ProjectionProfile;
-import technology.tabula.Rectangle;
-import technology.tabula.Ruling;
-import technology.tabula.Table;
-import technology.tabula.TextChunk;
-import technology.tabula.TextElement;
-import technology.tabula.Utils;
+import technology.tabula.*;
 import technology.tabula.detectors.NurminenDetectionAlgorithm;
 import technology.tabula.extractors.BasicExtractionAlgorithm;
 import technology.tabula.extractors.SpreadsheetExtractionAlgorithm;
@@ -104,6 +93,18 @@ public class Debug {
         }
         SpreadsheetExtractionAlgorithm ea = new SpreadsheetExtractionAlgorithm();
         List<Cell> cells = SpreadsheetExtractionAlgorithm.findCells(h, v);
+        drawShapes(g, cells);
+    }
+
+    private static void debugTableCells(Graphics2D g, Rectangle area, Page page) {
+        List<Ruling> h = page.getHorizontalRulings();
+        List<Ruling> v = page.getVerticalRulings();
+        if (area != null) {
+            h = Ruling.cropRulingsToArea(h, area);
+            v = Ruling.cropRulingsToArea(v, area);
+        }
+        SpreadsheetExtractionAlgorithm ea = new SpreadsheetExtractionAlgorithm();
+        List<RectangularTextContainer> cells = ea.extract(page).get(0).getCells();
         drawShapes(g, cells);
     }
 
@@ -216,7 +217,7 @@ public class Debug {
             boolean drawTextChunks, boolean drawSpreadsheets, boolean drawRulings, boolean drawIntersections,
             boolean drawColumns, boolean drawCharacters, boolean drawArea, boolean drawCells, 
             boolean drawUnprocessedRulings, boolean drawProjectionProfile, boolean drawClippingPaths,
-            boolean drawDetectedTables) throws IOException {
+            boolean drawDetectedTables,boolean drawTableCells) throws IOException {
         PDDocument document = PDDocument.load(pdfPath);
         
         ObjectExtractor oe = new ObjectExtractor(document, true);
@@ -272,6 +273,9 @@ public class Debug {
         }
         if (drawDetectedTables) {
             debugDetectedTables(g, page);
+        }
+        if (drawTableCells) {
+            debugTableCells(g,area, page);
         }
 
         document.close();
@@ -381,7 +385,8 @@ public class Debug {
                            line.hasOption('u'),
                            line.hasOption('f'),
                            line.hasOption('n'),
-                           line.hasOption('d'));
+                           line.hasOption('d'),
+                            line.hasOption('a'));
             }
         }
         catch (ParseException e) {

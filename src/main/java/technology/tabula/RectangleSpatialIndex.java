@@ -25,7 +25,7 @@ class RectangleSpatialIndex<T extends Rectangle> {
     };
 	
     private final SpatialIndex si;
-    private final List<T> rectangles;
+    public final List<T> rectangles;
     private Rectangle bounds = null;
     
     public RectangleSpatialIndex() {
@@ -68,7 +68,7 @@ class RectangleSpatialIndex<T extends Rectangle> {
         return rv;
     }
     
-    private net.sf.jsi.Rectangle rectangleToSpatialIndexRectangle(Rectangle r) {
+    public net.sf.jsi.Rectangle rectangleToSpatialIndexRectangle(Rectangle r) {
         return new net.sf.jsi.Rectangle((float) r.getX(),
                 (float) r.getY(),
                 (float) (r.getX() + r.getWidth()),

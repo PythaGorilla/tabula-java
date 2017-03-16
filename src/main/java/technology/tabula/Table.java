@@ -111,7 +111,7 @@ public class Table extends Rectangle {
     public void add(RectangularTextContainer tc, int i, int j) {
         this.merge(tc);
         this.cellContainer.put(new CellPosition(i, j), tc);
-        this.rows = null; // clear the memoized rows
+        this.rows = null; // clear the memorized rows
     }
 
     public RectangularTextContainer lastNonEmptyCell(int i, int j) {
@@ -138,9 +138,10 @@ public class Table extends Rectangle {
             //spanning cells get last non-empty values in row recursively
             for (int j = 0; j <= this.cellContainer.maxCol; j++) {
                 if (this.cellSpanning = true){
-                lastRow.add(lastNonEmptyCell(i, j));}
+                    lastRow.add(lastNonEmptyCell(i, j));}
                 else{
-                lastRow.add(this.cellContainer.containsKey(i, j) ? this.cellContainer.get(i, j) : TextChunk.EMPTY);}
+//                lastRow.add(this.cellContainer.containsKey(i, j) ? this.cellContainer.get(i, j) : TextChunk.EMPTY);
+                }
             }
         }
         return this.rows;

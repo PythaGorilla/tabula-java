@@ -111,10 +111,12 @@ public class SpreadsheetExtractionAlgorithm implements ExtractionAlgorithm {
         List<TableWithRulingLines> spreadsheets = new ArrayList<TableWithRulingLines>();
         for (Rectangle area: spreadsheetAreas) {
 
+            //overlapping with detected area
             List<Cell> overlappingCells = new ArrayList<Cell>();
             for (Cell c: cells) {
                 if (c.intersects(area)) {
-
+                    //get text to cell from page
+                    //todo merge words has problem estimating the correct height
                     c.setTextElements(TextElement.mergeWords(page.getText(c)));
                     overlappingCells.add(c);
                 }
@@ -339,7 +341,10 @@ public class SpreadsheetExtractionAlgorithm implements ExtractionAlgorithm {
         
         return rectangles;
     }
-    
+
+
+
+
     @Override
     public String toString() {
         return "lattice";

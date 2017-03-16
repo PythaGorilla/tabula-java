@@ -26,7 +26,7 @@ public class Utils {
         return overlap(y1, height1, y2, height2, 0.1f);
     }
 
-    private final static float EPSILON = 0.01f;
+    private final static float EPSILON =0.02f;
     protected static boolean useQuickSort = useCustomQuickSort();
 
     public static boolean feq(double f1, double f2) {
