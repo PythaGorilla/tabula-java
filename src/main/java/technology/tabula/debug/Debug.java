@@ -222,13 +222,13 @@ public class Debug {
         
         ObjectExtractor oe = new ObjectExtractor(document, true);
         
-        Page page = oe.extract(pageNumber + 1);
+        Page page = oe.extract(pageNumber );
         
         if (area != null) {
             page = page.getArea(area);
         }
         
-        PDPage p = (PDPage) document.getDocumentCatalog().getAllPages().get(pageNumber);
+        PDPage p = (PDPage) document.getDocumentCatalog().getAllPages().get(pageNumber-1);
         
 //        PDFRenderer renderer = new PDFRenderer(document);
 //        BufferedImage image = renderer.renderImage(pageNumber);

@@ -201,9 +201,9 @@ public class TestSpreadsheetExtractor {
 //        SpreadsheetExtractionAlgorithm se = new SpreadsheetExtractionAlgorithm();
 //        List<? extends Table> tables = se.extract(page);
         //assertEquals(2, tables.size());
-        String PATH = "H:/WareHouse/WikiNet/tabula-python-project/pdf/case1.pdf";
+        String PATH = "H:/WareHouse/WikiNet/tabula-python-project/pdf/case9.pdf";
         File outFile = new File(new File(System.getProperty("java.io.tmpdir")), "/rendered_page.jpg");
-        Debug.renderPage(PATH, outFile.getAbsolutePath(), 10, null, false, false, false, false, false, false, false, false, false, false,false,false,true);
+        Debug.renderPage(PATH, outFile.getAbsolutePath(), 16, null, false, false, false, false, false, false, false, false, false, false,false,false,true);
 //        StringBuilder sb = new StringBuilder();
 //        (new JSONWriter()).write(sb, (List<Table>) tables);
 //        assertEquals(expectedJson, sb.toString());
@@ -485,7 +485,7 @@ public class TestSpreadsheetExtractor {
     @Test
     public void testCellsReassemble() throws IOException {
         Page page = UtilsForTesting
-                .getPage("H:/WareHouse/WikiNet/tabula-python-project/pdf/case12.pdf", 6);
+                .getPage("H:/WareHouse/WikiNet/tabula-python-project/pdf/case9.pdf", 16);
         //String expectedJson = UtilsForTesting.loadJson("src/test/resources/technology/tabula/json/spanning_cells.json");
         SpreadsheetExtractionAlgorithm se = new SpreadsheetExtractionAlgorithm();
         List<? extends Table> tables = se.extract(page);

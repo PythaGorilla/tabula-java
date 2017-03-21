@@ -3,7 +3,7 @@ package technology.tabula;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
-
+import java.util.Collections;
 import com.rits.cloning.Cloner;
 import sun.font.TrueTypeFont;
 import technology.tabula.extractors.ExtractionAlgorithm;
@@ -140,12 +140,17 @@ public class Table extends Rectangle {
                 if (this.cellSpanning = true){
                     lastRow.add(lastNonEmptyCell(i, j));}
                 else{
-//                lastRow.add(this.cellContainer.containsKey(i, j) ? this.cellContainer.get(i, j) : TextChunk.EMPTY);
+                    lastRow.add(this.cellContainer.containsKey(i, j) ? this.cellContainer.get(i, j) : TextChunk.EMPTY);
                 }
             }
         }
-        return this.rows;
-    }
+        List<RectangularTextContainer> lastEmptyRow = new ArrayList<RectangularTextContainer>();
+        for (int j = 0; j <= this.cellContainer.maxCol; j++) {
+            lastEmptyRow.add(TextChunk.EMPTY);
+        }
+        this.rows.add(lastEmptyRow);
+        return this.rows;}
+
 
     public RectangularTextContainer getCell(int i, int j) {
         return this.cellContainer.get(i, j);

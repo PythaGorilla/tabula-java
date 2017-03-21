@@ -60,7 +60,7 @@ public class TableWithRulingLines<T extends Rectangle> extends Table  {
     }
 
     public List<Cell> breakSpatialIndex(List<Cell> cells){
-
+        float minSize =2.5f;
         if (cells.isEmpty()) {
                 return cells;
             }
@@ -71,7 +71,9 @@ public class TableWithRulingLines<T extends Rectangle> extends Table  {
         RectangleSpatialIndex<Cell> new_si = new RectangleSpatialIndex<Cell>();
 
         List<Cell> newCells=new ArrayList();
-        List<Cell> filteredCells=cells.stream().filter(c->c.width>=2&&c.height>=2||c.getText()!="").collect(Collectors.toList());
+        float meanCellSize=cells.stream().map(c->c.width*c.height).reduce( 0.0f, (x,y) -> x+y)/cells.size();
+
+        List<Cell> filteredCells=cells.stream().filter(c->(c.width*c.height>=max(meanCellSize/2,10))&&c.width>=minSize&&c.height>=minSize||c.getText()!="").collect(Collectors.toList());
         for (Cell cell:filteredCells){
 
             List<Cell> cellsInColumn = si.contains(new Rectangle(cell.getBottom(), cell.getLeft(), (float) cell.getWidth(),
@@ -79,9 +81,8 @@ public class TableWithRulingLines<T extends Rectangle> extends Table  {
 
             List<Cell> cellsInRow = si.contains(new Rectangle(cell.getTop(), si.getBounds().getLeft(), (float) si.getBounds().getWidth(),
                     (float) cell.getHeight()));
-            float meanCellSize=cells.stream().map(c->c.width*c.height).reduce( 0.0f, (x,y) -> x+y)/cells.size();
-            List<Cell> filteredCellsInColumn=cellsInColumn.stream().filter(c->(c.width*c.height>=max(meanCellSize/2,10))&&c.width>=2&&c.height>=2||c.getText()!="").collect(Collectors.toList());
-            List<Cell> filteredCellsInRow=cellsInRow.stream().filter(c->(c.width*c.height>=max(meanCellSize/2,10))&&c.width>=2&&c.height>=2||c.getText()!="").collect(Collectors.toList());
+            List<Cell> filteredCellsInColumn=cellsInColumn.stream().filter(c->((c.width*c.height>=max(meanCellSize/2,10))&&c.width>=minSize&&c.height>=minSize)||c.getText()!="").collect(Collectors.toList());
+            List<Cell> filteredCellsInRow=cellsInRow.stream().filter(c->((c.width*c.height>=max(meanCellSize/2.,10))&&c.width>=minSize&&c.height>=minSize)||c.getText()!="").collect(Collectors.toList());
             List yCountList=filteredCellsInColumn.stream().map(c->c.y).collect(Collectors.toList());
             List xCountList=filteredCellsInRow.stream().map(c->c.x).collect(Collectors.toList());
 
