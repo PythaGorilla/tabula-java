@@ -229,8 +229,8 @@ public class CommandLineApp {
             return ExtractionMethod.SPREADSHEET;
         }
 
-        // -n/--no-spreadsheet [deprecated; use -t] or  -c/--columns or -g/--guess or -t/--stream
-        if (line.hasOption('n') || line.hasOption('c') || line.hasOption('g') || line.hasOption('t')) {
+        // -n/--no-spreadsheet [deprecated; use -t] or  -c/--columns or -g/--guess or -t/--stream //deleted guess from this
+        if (line.hasOption('n') || line.hasOption('c')  || line.hasOption('t')) {
             return ExtractionMethod.BASIC;
         }
         return ExtractionMethod.DECIDE;

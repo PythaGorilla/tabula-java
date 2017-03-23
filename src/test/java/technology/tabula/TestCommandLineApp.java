@@ -115,7 +115,7 @@ public class TestCommandLineApp {
 		String expectedJson = UtilsForTesting.loadJson("src/test/resources/technology/tabula/json/spanning_cells_basic.json");
 
 		this.csvFromCommandLineArgs(new String[] {
-				"H:/WareHouse/WikiNet/tabula-python-project/pdf/case1.pdf","-p","4","-f","JSON","-g","-spreadsheet"
+				"H:/WareHouse/WikiNet/tabula-python-project/pdf_jian/case_318_table.pdf","-p","4","-f","CSV"
 		});
 	}
 }

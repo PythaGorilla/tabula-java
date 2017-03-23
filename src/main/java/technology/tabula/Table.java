@@ -9,6 +9,8 @@ import sun.font.TrueTypeFont;
 import technology.tabula.extractors.ExtractionAlgorithm;
 import com.google.gson.Gson;
 
+import static java.lang.Math.max;
+
 
 @SuppressWarnings("serial")
 public class Table extends Rectangle {
@@ -137,11 +139,18 @@ public class Table extends Rectangle {
             this.rows.add(lastRow);
             //spanning cells get last non-empty values in row recursively
             for (int j = 0; j <= this.cellContainer.maxCol; j++) {
-                if (this.cellSpanning = true){
-                    lastRow.add(lastNonEmptyCell(i, j));}
-                else{
-                    lastRow.add(this.cellContainer.containsKey(i, j) ? this.cellContainer.get(i, j) : TextChunk.EMPTY);
+//                if (this.cellSpanning = true){
+//                    lastRow.add(lastNonEmptyCell(i, j));}
+//                else{
+                if(this.cellContainer.containsKey(i, j)){
+                    RectangularTextContainer c=this.cellContainer.get(i, j);
+                    if(c.width*c.height>=max(5,10) && c.width>=2&&c.height>=2||c.getText()!=""){
+                    lastRow.add(c);}
                 }
+                else{
+                    lastRow.add(TextChunk.EMPTY);
+                }
+//                }
             }
         }
         List<RectangularTextContainer> lastEmptyRow = new ArrayList<RectangularTextContainer>();

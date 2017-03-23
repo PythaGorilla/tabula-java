@@ -93,7 +93,7 @@ public class BasicExtractionAlgorithm implements ExtractionAlgorithm {
                 table.add(tc, i, found ? j : columns.size());
             }
         }
-        
+        //todo find captions here
         return Arrays.asList(new Table[] { table } );
     }
     
