@@ -1,13 +1,12 @@
 package technology.tabula;
 
+import com.google.gson.Gson;
+import com.rits.cloning.Cloner;
+import technology.tabula.extractors.ExtractionAlgorithm;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.Collections;
-import com.rits.cloning.Cloner;
-import sun.font.TrueTypeFont;
-import technology.tabula.extractors.ExtractionAlgorithm;
-import com.google.gson.Gson;
 
 import static java.lang.Math.max;
 
@@ -99,6 +98,8 @@ public class Table extends Rectangle {
     Page page;
     ExtractionAlgorithm extractionAlgorithm;
     List<List<RectangularTextContainer>> rows = null;
+    String caption;
+    String refTxt;
 
     public Table() {
         super();
@@ -191,5 +192,12 @@ public class Table extends Rectangle {
         return s;
     }
 
+    public void setCaption(String caption){
+        this.caption=caption;
+    }
+
+    public void setRefTxt(String refTxt){
+        this.refTxt =refTxt;
+    }
 
 }

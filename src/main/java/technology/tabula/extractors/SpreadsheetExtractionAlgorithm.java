@@ -1,25 +1,9 @@
 package technology.tabula.extractors;
 
-import java.awt.geom.Point2D;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import technology.tabula.*;
 
-import technology.tabula.Cell;
-import technology.tabula.Page;
-import technology.tabula.Rectangle;
-import technology.tabula.Ruling;
-import technology.tabula.Table;
-import technology.tabula.TableWithRulingLines;
-import technology.tabula.TextElement;
-import technology.tabula.Utils;
-import technology.tabula.writers.CSVWriter;
+import java.awt.geom.Point2D;
+import java.util.*;
 
 /**
  * @author manuel
@@ -139,8 +123,8 @@ public class SpreadsheetExtractionAlgorithm implements ExtractionAlgorithm {
                     horizontalOverlappingRulings, verticalOverlappingRulings);
             
             t.setExtractionAlgorithm(this);
-            
-            spreadsheets.add(t);
+            if(t.getCells().size() != 0){
+            spreadsheets.add(t);}
         }
         Utils.sort(spreadsheets);
         return spreadsheets;

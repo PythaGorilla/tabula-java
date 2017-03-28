@@ -1,18 +1,18 @@
 package technology.tabula;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.ParseException;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.Assert.*;
 
 public class TestCommandLineApp {
 
@@ -115,7 +115,7 @@ public class TestCommandLineApp {
 		String expectedJson = UtilsForTesting.loadJson("src/test/resources/technology/tabula/json/spanning_cells_basic.json");
 
 		this.csvFromCommandLineArgs(new String[] {
-				"H:/WareHouse/WikiNet/tabula-python-project/pdf_jian/case_318_table.pdf","-p","4","-f","CSV"
+				"H:/WareHouse/WikiNet/tabula-python-project/pdf/case4.pdf","-l","-f","CSV","-o","C:/case1.csv","-p","all"
 		});
 	}
 }

@@ -1,33 +1,26 @@
 package technology.tabula;
 
-import java.awt.geom.Point2D;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.GnuParser;
+import edu.psu.seersuite.extractors.tableextractor.extraction.IPdfParser;
+import edu.psu.seersuite.extractors.tableextractor.extraction.PdfBoxParser;
+import org.apache.commons.cli.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
-
 import technology.tabula.detectors.DetectionAlgorithm;
 import technology.tabula.detectors.NurminenDetectionAlgorithm;
-import technology.tabula.detectors.SpreadsheetDetectionAlgorithm;
 import technology.tabula.extractors.BasicExtractionAlgorithm;
 import technology.tabula.extractors.SpreadsheetExtractionAlgorithm;
+import technology.tabula.kotlin.KutilsKt;
 import technology.tabula.writers.CSVWriter;
 import technology.tabula.writers.JSONWriter;
 import technology.tabula.writers.TSVWriter;
 import technology.tabula.writers.Writer;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static technology.tabula.kotlin.KutilsKt.meta2table;
 
 
 public class CommandLineApp {
@@ -165,7 +158,11 @@ public class CommandLineApp {
 
                 tables.addAll(tableExtractor.extractTables(page));
             }
-            writeTables(tables, outFile);
+
+            List new_tables=getTableMeta(tables,pdfFile);
+
+            writeTables(new_tables, outFile);
+
         } catch (IOException e) {
             throw new ParseException(e.getMessage());
         } finally {
@@ -425,6 +422,36 @@ public class CommandLineApp {
         return pdfFile.getPath().replaceFirst("(\\.pdf|)$", extension);
     }
 
+    private List getTableMeta(List<Table> tables, File pdfFile){
+
+
+        //get caption and reftext from table_seer
+        edu.psu.seersuite.extractors.tableextractor.extraction.TableExtractor seer_extractor= new edu.psu.seersuite.extractors.tableextractor.extraction.TableExtractor();
+        IPdfParser seer_parser = null;
+
+        try {
+            seer_parser = new PdfBoxParser();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        seer_extractor.setParser(seer_parser);
+        //attach table meta data to its page in a map
+        List<edu.psu.seersuite.extractors.tableextractor.model.Table> seer_tables=seer_extractor.extract(pdfFile,"C:/");
+        List<Integer> pageNumList=seer_tables.stream().map(e -> e.getPageNumber()).collect(Collectors.toList());
+        List captionList=seer_tables.stream().map(e -> e.getCaption()).collect(Collectors.toList());
+        List reftxtList=seer_tables.stream().map(e -> e.getRefTextList()).collect(Collectors.toList());
+        List meta_list=KutilsKt.zip2pairs(captionList,reftxtList);
+        //List list2=KutilsKt.flatZip(meta_list,reftxtList);
+        Map meta_map= KutilsKt.zip2map(pageNumList,meta_list);
+        Map table_map=KutilsKt.zip2map(tables.stream().map(e->e.getPageNo()).collect(Collectors.toList()),tables );
+
+
+        List new_table_list=meta2table(meta_map,table_map);
+
+        return new_table_list;
+
+    }
+
     private enum OutputFormat {
         CSV,
         TSV,
@@ -459,4 +486,5 @@ public class CommandLineApp {
             }
         }
     }
+
 }

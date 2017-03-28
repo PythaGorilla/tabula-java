@@ -1,14 +1,14 @@
 package technology.tabula;
 
-import java.awt.Shape;
+import org.apache.commons.cli.ParseException;
+
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.math.BigDecimal;
 import java.util.*;
-
-import org.apache.commons.cli.ParseException;
-
+import java.util.List;
 /**
  *
  * @author manuel
