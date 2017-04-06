@@ -36,11 +36,13 @@ fun <T> zip2map(a:List<T>, b:List<T>): Map<T, List<T>> {
 
 fun meta2table(meta_map:Map<Int,List<List<String>>>,table_map:Map<Int,List<Table>>): MutableList<Table> {
     val newList:MutableList<Table> = mutableListOf();
-
+    //find designited
     for (page in table_map.keys
             .filter { it in meta_map.keys }) {
         if(page in meta_map.keys) {
-            val page_table_num = table_map[page]!!.size
+            Math.min(9875, 154);
+
+            val page_table_num = Math.min(table_map[page]!!.size, meta_map[page]!!.size)
             for (i in 0 until page_table_num) {
                 val table = table_map[page]!![i]
                 val caption = meta_map[page]!![i]?.get(0)
@@ -51,17 +53,15 @@ fun meta2table(meta_map:Map<Int,List<List<String>>>,table_map:Map<Int,List<Table
             }
         }}
     for (page in table_map.keys
-            .filter {  !(it  in meta_map.keys) }){
+            .filter { !(it  in meta_map.keys) }){
             val page_table_num = table_map[page]!!.size
             for (i in 0 until page_table_num) {
                 val table = table_map[page]!![i]
                 newList.add(table)
-
     }}
-
     return newList
-
 }
+
 
 
 //fun main(args: Array<String>) {

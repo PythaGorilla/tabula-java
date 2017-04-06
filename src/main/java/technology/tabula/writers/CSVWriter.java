@@ -37,13 +37,24 @@ public class CSVWriter implements Writer {
     public void write(Appendable out, Table table) throws IOException {
 
         this.createWriter(out);
+
+        String caption= table.getCaption();
+        //add caption in front of every table
+        this.printer.printRecord(caption);
+
         for (List<RectangularTextContainer> row : table.getRows()) {
             List<String> cells = new ArrayList<String>(row.size());
+
+
             for (RectangularTextContainer tc : row) {
+
                 cells.add(tc.getText());
+
             }
             this.printer.printRecord(cells);
+
         }
+        this.printer.printRecord(" ");
         printer.flush();
     }
 

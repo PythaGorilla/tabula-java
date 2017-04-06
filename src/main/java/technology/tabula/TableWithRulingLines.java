@@ -1,10 +1,13 @@
 package technology.tabula;
 
+import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
+
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.lang.Math.max;
+import static java.util.Comparator.comparingDouble;
 import static java.util.stream.Collectors.groupingBy;
 
 @SuppressWarnings("serial")
@@ -33,7 +36,6 @@ public class TableWithRulingLines<T extends Rectangle> extends Table  {
         return cells;
     }
 
-    //Todo seems something goes wrong here; reassemble cells in this function
     private void addCells(List<Cell> cells) {
         List<Cell> new_cells=breakSpatialIndex(cells);
 
@@ -54,7 +56,7 @@ public class TableWithRulingLines<T extends Rectangle> extends Table  {
             }
             this.add(cell, i, startColumn++);
             while (rowCells.hasNext()) {
-                this.add(rowCells.next(), i, startColumn++);
+                  this.add(rowCells.next(), i, startColumn++);
             }
         }
     }
@@ -74,28 +76,74 @@ public class TableWithRulingLines<T extends Rectangle> extends Table  {
         float meanCellSize=cells.stream().map(c->c.width*c.height).reduce( 0.0f, (x,y) -> x+y)/cells.size();
 
         List<Cell> filteredCells=cells.stream().filter(c->(c.width*c.height>=max(meanCellSize/2,10))&&c.width>=minSize&&c.height>=minSize||c.getText()!="").collect(Collectors.toList());
-        for (Cell cell:filteredCells){
+        for (Cell cell:filteredCells) {
 
             List<Cell> cellsInColumn = si.contains(new Rectangle(cell.getBottom(), cell.getLeft(), (float) cell.getWidth(),
                     si.getBounds().getBottom() - cell.getBottom()));
 
             List<Cell> cellsInRow = si.contains(new Rectangle(cell.getTop(), si.getBounds().getLeft(), (float) si.getBounds().getWidth(),
                     (float) cell.getHeight()));
-            List<Cell> filteredCellsInColumn=cellsInColumn.stream().filter(c->((c.width*c.height>=max(meanCellSize/2,10))&&c.width>=minSize&&c.height>=minSize)||c.getText()!="").collect(Collectors.toList());
-            List<Cell> filteredCellsInRow=cellsInRow.stream().filter(c->((c.width*c.height>=max(meanCellSize/2.,10))&&c.width>=minSize&&c.height>=minSize)||c.getText()!="").collect(Collectors.toList());
-            List yCountList=filteredCellsInColumn.stream().map(c->c.y).collect(Collectors.toList());
-            List xCountList=filteredCellsInRow.stream().map(c->c.x).collect(Collectors.toList());
+            List<Cell> filteredCellsInColumn = cellsInColumn.stream().filter(c -> ((c.width * c.height >= max(meanCellSize / 2, 10)) && c.width >= minSize && c.height >= minSize) || c.getText() != "").collect(Collectors.toList());
+            List<Cell> filteredCellsInRow = cellsInRow.stream().filter(c -> ((c.width * c.height >= max(meanCellSize / 2., 10)) && c.width >= minSize && c.height >= minSize) || c.getText() != "").collect(Collectors.toList());
 
-            int maxCountY=getMaxCountValue(yCountList);
-            int maxCountX=getMaxCountValue(xCountList);
+//            Set yCountSet=filteredCellsInColumn.stream().map(c->c.y).collect(Collectors.toSet());
+//            Set xCountSet=filteredCellsInRow.stream().map(c->c.x).collect(Collectors.toSet());
+
+            //y coordinates of cells in column
+            List yCountList = filteredCellsInColumn.stream().map(c -> c.y).collect(Collectors.toList());
+            //x coordinates of cells in row
+            List xCountList = filteredCellsInRow.stream().map(c -> c.x).collect(Collectors.toList());
+
+            int maxCountY = getMaxCountValue(yCountList);
+            int maxCountX = getMaxCountValue(xCountList);
+
+            //group column cells by their Y
+            Map<java.lang.Double, List<Cell>> groupCellsByColumnY = filteredCellsInColumn.stream().collect(Collectors.groupingBy(Cell::getY));
+            //group row cells by their X
+            Map<java.lang.Double, List<Cell>> groupCellsByRowX = filteredCellsInRow.stream().collect(Collectors.groupingBy(Cell::getX));
+
+            //find largest sub-group
+            Map<java.lang.Double, List<Cell>> maxColumnGroups = groupCellsByColumnY.entrySet().stream().filter(l -> l.getValue().size() == maxCountY)
+                    .collect(Collectors.toMap(l -> l.getKey(), l -> l.getValue()));
+            Map<java.lang.Double, List<Cell>> maxRowGroups = groupCellsByRowX.entrySet().stream().filter(l -> l.getValue().size() == maxCountX)
+                    .collect(Collectors.toMap(l -> l.getKey(), l -> l.getValue()));
+            //find upmost group
+            List<Cell> LargestGroupColumn;
+            List<Cell> LargestGroupRow;
+
+            if (maxColumnGroups.size()>0) {
+               LargestGroupColumn = Collections.min(maxColumnGroups.entrySet(), Comparator.comparingDouble(Map.Entry::getKey)).getValue();
+            }
+
+            else{
+                LargestGroupColumn=new ArrayList<>();
+                LargestGroupColumn.add(cell);
+            }
+            //find leftmost group
+            if (maxRowGroups.size()>0){
+                LargestGroupRow=Collections.min(maxRowGroups.entrySet(), Comparator.comparingDouble(Map.Entry::getKey)).getValue();
+            }
+            else {
+                LargestGroupRow = new ArrayList<>();
+                LargestGroupRow.add(cell);
+            }
+
             List<Cell> splitCells =  new ArrayList();
-            for (int i=0;i<maxCountY;++i){
-                for (int j=0;j<maxCountX;++j){
-                    Cell temp_cell=new Cell(cell.getTop()+cell.height*j/maxCountX,cell.getLeft()+i*cell.width/maxCountY,cell.width/maxCountY,cell.height/maxCountX);
+            for (int y=0;y<maxCountY;++y){
+                for (int x=0;x<maxCountX;++x){
+                    Cell temp_cell=new Cell(LargestGroupRow.get(x).getTop(),LargestGroupColumn.get(y).getLeft(),(float)LargestGroupColumn.get(y).getWidth(),(float)LargestGroupRow.get(x).getTop());
                     temp_cell.setTextElements(cell.getTextElements());
                     splitCells.add(temp_cell);
                 }
             }
+
+//            for (int i=0;i<maxCountY;++i){
+//                for (int j=0;j<maxCountX;++j){
+//                    Cell temp_cell=new Cell(cell.getTop()+cell.height*j/maxCountX,cell.getLeft()+i*cell.width/maxCountY,cell.width/maxCountY,cell.height/maxCountX);
+//                    temp_cell.setTextElements(cell.getTextElements());
+//                    splitCells.add(temp_cell);
+//                }
+//            }
             newCells.addAll(splitCells);
             for (Cell ce: splitCells) {
                 new_si.add(ce);
@@ -165,13 +213,10 @@ public class TableWithRulingLines<T extends Rectangle> extends Table  {
                 rv.add(lastRow);
             }
 
-
             lastRow.add(c);
             lastTop = c.getTop();
         }
         //todo break the table down, generate a new table here
-
-
 
         return rv;
     }

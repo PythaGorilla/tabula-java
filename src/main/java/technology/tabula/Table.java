@@ -154,11 +154,12 @@ public class Table extends Rectangle {
 //                }
             }
         }
-        List<RectangularTextContainer> lastEmptyRow = new ArrayList<RectangularTextContainer>();
-        for (int j = 0; j <= this.cellContainer.maxCol; j++) {
-            lastEmptyRow.add(TextChunk.EMPTY);
-        }
-        this.rows.add(lastEmptyRow);
+        // add empty space in csv writer instead
+//        List<RectangularTextContainer> lastEmptyRow = new ArrayList<RectangularTextContainer>();
+//        for (int j = 0; j <= this.cellContainer.maxCol; j++) {
+//            lastEmptyRow.add(TextChunk.EMPTY);
+//        }
+//        this.rows.add(lastEmptyRow);
         return this.rows;}
 
 
@@ -198,6 +199,12 @@ public class Table extends Rectangle {
 
     public void setRefTxt(String refTxt){
         this.refTxt =refTxt;
+    }
+    public String getCaption(){
+        return this.caption;
+    }
+    public String getRefTxt(){
+        return this.refTxt;
     }
 
 }

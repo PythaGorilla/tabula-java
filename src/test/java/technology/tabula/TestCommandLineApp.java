@@ -12,6 +12,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+
 import static org.junit.Assert.*;
 
 public class TestCommandLineApp {
@@ -115,7 +116,7 @@ public class TestCommandLineApp {
 		String expectedJson = UtilsForTesting.loadJson("src/test/resources/technology/tabula/json/spanning_cells_basic.json");
 
 		this.csvFromCommandLineArgs(new String[] {
-				"H:/WareHouse/WikiNet/tabula-python-project/pdf/case4.pdf","-l","-f","CSV","-o","C:/case1.csv","-p","all"
+				"H:/WareHouse/WikiNet/tabula-python-project/pdf_jian/case_350_table.pdf","-l","-f","CSV","-o","H:/case2.csv","-p","15"
 		});
 	}
 }

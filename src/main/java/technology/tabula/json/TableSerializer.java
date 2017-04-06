@@ -31,7 +31,8 @@ public class TableSerializer implements JsonSerializer<Table> {
         object.addProperty("width", table.getWidth());
         object.addProperty("height", table.getHeight());
         object.addProperty("page", table.getPageNo());
-        //object.addProperty("caption", table.getCaption());
+        object.addProperty("caption", table.getCaption());
+        object.addProperty("refTxt", table.getRefTxt());
 
 
         //todo cell json serialization
