@@ -381,6 +381,8 @@ public class CommandLineApp {
         if (verticalRulingPositions != null) {
           return basicExtractor.extract(page, verticalRulingPositions);
         }
+        //find vertical rulings if there's any from page
+        basicExtractor.verticalRulings=page.getVerticalRulings();
         return basicExtractor.extract(page);
       }
 
