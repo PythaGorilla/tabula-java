@@ -42,9 +42,10 @@ public class Cell extends RectangularTextContainer<TextChunk> {
         double curTop = this.textElements.get(0).getTop();
         for (TextChunk tc: this.textElements) {
             if (useLineReturns && tc.getTop() > curTop) {
+                sb.append('\r');
                 //change from sb.append('\r'); to double space for better output on windows
-                sb.append(' ');
-                sb.append(' ');
+//                sb.append(' ');
+//                sb.append(' ');
 
             }
             sb.append(tc.getText());

@@ -16,7 +16,7 @@ import technology.tabula.TextElement;
 
 public class BasicExtractionAlgorithm implements ExtractionAlgorithm {
     
-    private List<Ruling> verticalRulings = null;
+    public List<Ruling> verticalRulings = null;
     
     public BasicExtractionAlgorithm() {
     }
@@ -55,6 +55,12 @@ public class BasicExtractionAlgorithm implements ExtractionAlgorithm {
                 }
             });
             columns = new ArrayList<Float>(this.verticalRulings.size());
+
+            //further split columns by spacesin the ruling split column
+            List<Float> columnsBySpaces = new ArrayList<Float>();
+            columnsBySpaces = columnPositions(lines);
+            columns.addAll(columnsBySpaces);
+
             for (Ruling vr: this.verticalRulings) {
                 columns.add(vr.getLeft());
             }
